@@ -66,6 +66,8 @@
       let hitEndMarker = false;
       while (node) {
         if (node.nodeType === 1 && node.tagName === 'H3') break;
+        if (node.nodeType === 1 && node.classList &&
+            (node.classList.contains('timeline-list-wrap') || node.classList.contains('links-grid-wrap'))) break;
         if (node.nodeType === 1 && node.tagName === 'P') {
           const t = node.textContent.trim();
           if (t === '!###') {
@@ -199,54 +201,58 @@
   }
 
   function processTimelineLists(section) {
-    const allPs = section.querySelectorAll('p');
-    const timelines = [];
+    const blocks = [];
+    const tmp = document.createElement('div');
+    tmp.innerHTML = section.innerHTML;
 
-    allPs.forEach((el) => {
-      const t = el.textContent.trim();
-      const m = t.match(/^!!!TIMELINE\s*:\s*(.+?)\s*!!!\s*$/);
-      if (!m) return;
+    const ps = tmp.querySelectorAll('p');
+    ps.forEach((p) => {
+      const t = p.textContent.trim();
+      if (!/^!!!TIMELINE\s*:/.test(t)) return;
 
-      let ul = el.nextElementSibling;
+      const titleRaw = t.replace(/^!!!TIMELINE\s*:\s*/, '').replace(/\s*!!!$/, '');
+      const badge = (titleRaw.match(/\[([^\]]+)\]\s*$/) || [])[1] || '';
+      const title = titleRaw.replace(/\s*\[([^\]]+)\]\s*$/, '').trim();
+
+      let ul = p.nextElementSibling;
       while (ul && ul.tagName !== 'UL') {
         if (ul.tagName === 'H2' || ul.tagName === 'H3') { ul = null; break; }
         ul = ul.nextElementSibling;
       }
-      if (!ul || ul.tagName !== 'UL') return;
 
-      const items = ul.querySelectorAll(':scope > li');
-      if (!items.length) return;
-
-      const rawTitle = m[1].trim();
-      const badgeMatch = rawTitle.match(/\s*\[([^\]]+)\]\s*$/);
-      let titleText = rawTitle;
-      let titleBadge = '';
-      if (badgeMatch) {
-        titleBadge = badgeMatch[1];
-        titleText = rawTitle.replace(/\s*\[([^\]]+)\]\s*$/, '');
+      const items = [];
+      if (ul) {
+        ul.querySelectorAll(':scope > li').forEach((li) => {
+          const parts = li.textContent.split('|').map((s) => s.trim());
+          items.push({ date: parts[0] || '', content: parts[1] || '', tag: parts[2] || '', link: parts[3] || '' });
+        });
       }
 
+      blocks.push({ title, badge, items });
+    });
+
+    blocks.forEach(({ title, badge, items }) => {
       const wrap = document.createElement('div');
       wrap.className = 'timeline-list-wrap';
 
       const header = document.createElement('div');
       header.className = 'timeline-list-header';
-      const title = document.createElement('div');
-      title.className = 'timeline-list-title';
-      if (titleBadge) {
-        const badge = document.createElement('span');
-        badge.className = 'tl-badge';
-        badge.textContent = titleBadge;
-        title.appendChild(badge);
+      const titleEl = document.createElement('div');
+      titleEl.className = 'timeline-list-title';
+      if (badge) {
+        const b = document.createElement('span');
+        b.className = 'tl-badge';
+        b.textContent = badge;
+        titleEl.appendChild(b);
       }
-      const titleSpan = document.createElement('span');
-      titleSpan.textContent = titleText;
-      title.appendChild(titleSpan);
-      header.appendChild(title);
+      const ts = document.createElement('span');
+      ts.textContent = title;
+      titleEl.appendChild(ts);
+      header.appendChild(titleEl);
 
       const meta = document.createElement('div');
       meta.className = 'timeline-list-meta';
-      meta.textContent = `Timeline · ${items.length} Events`;
+      meta.textContent = 'Timeline · ' + items.length + ' Events';
       header.appendChild(meta);
 
       wrap.appendChild(header);
@@ -254,14 +260,7 @@
       const list = document.createElement('div');
       list.className = 'timeline-list';
 
-      items.forEach((li) => {
-        const raw = li.textContent.trim();
-        const parts = raw.split('|').map(s => s.trim());
-        const date = parts[0] || '';
-        const content = parts[1] || '';
-        const tag = parts[2] || '';
-        const link = parts[3] || '';
-
+      items.forEach(({ date, content, tag, link }) => {
         const item = document.createElement('div');
         item.className = 'timeline-item';
 
@@ -296,21 +295,17 @@
       });
 
       wrap.appendChild(list);
-
-      el.remove();
-      ul.remove();
-      timelines.push({ wrap, anchor: ul.nextSibling, parent: ul.parentNode });
+      section.appendChild(wrap);
     });
 
-    timelines.forEach(({ wrap, anchor, parent }) => {
-      if (parent && parent.contains(anchor || wrap)) {
-        parent.insertBefore(wrap, anchor);
-      } else {
-        section.appendChild(wrap);
+    section.querySelectorAll('p').forEach((p) => {
+      if (/^!!!TIMELINE\s*:/.test(p.textContent.trim())) {
+        const ul = p.nextElementSibling;
+        if (ul && ul.tagName === 'UL') ul.remove();
+        p.remove();
       }
     });
   }
-
   function processLinkCards(section) {
     const allPs = section.querySelectorAll('p');
     const linkBlocks = [];
@@ -365,11 +360,9 @@
     });
 
     linkBlocks.forEach(({ el, ul, grid }) => {
-      const parent = ul.parentNode;
-      const anchor = ul.nextSibling;
       el.remove();
       ul.remove();
-      if (parent) parent.insertBefore(grid, anchor);
+      section.appendChild(grid);
     });
   }
 
@@ -539,7 +532,7 @@
     sidebar.innerHTML = `
       <div class="sidebar-inner">
         <div class="brand">
-          <img src="logo-orange.png" class="brand-mark" alt="Primus" />
+          <img src="/logo-orange.png" class="brand-mark" alt="" />
         </div>
         <nav class="toc" id="toc"></nav>
         <div class="sidebar-footer">
@@ -603,17 +596,6 @@
       processLinkCards(section);
 
       wrapH3IntoCards(section);
-
-      section.querySelectorAll('.timeline-list-wrap, .links-grid-wrap').forEach((wrap) => {
-        const parent = wrap.parentNode;
-        if (parent === section) return;
-        let outer = parent;
-        while (outer && outer.parentNode !== section) {
-          outer = outer.parentNode;
-        }
-        const anchor = outer ? outer.nextSibling : null;
-        section.insertBefore(wrap, anchor);
-      });
 
       processCTAs(section);
     });

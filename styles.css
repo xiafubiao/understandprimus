@@ -1357,3 +1357,8 @@ a:hover { text-decoration: underline; }
 .link-card:hover .link-card-right::after {
   transform: translateX(3px);
 }
+
+.brand-mark {
+  color: transparent;
+  font-size: 0;
+}

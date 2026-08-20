@@ -88,11 +88,10 @@ Transparency proofs for four production projects including RWA and stablecoins.
 
 !!!TIMELINE: 2026 [01]!!!
 - August | Supporting Kaito Pulse with zkTLS off-platform activity verification | INTEGRATION | https://x.com/primus_labs/status/2089736643733492118
-- July | Official Launch Partner of DatalineAI | PARTNERSHIP | https://x.com/primus_labs/status/2072670047269687350
 - July | Joint verification tool with Brevis + Kaito AI for authentic creator contributions | PARTNERSHIP | https://x.com/primus_labs/status/2082466216397164732
 - June | zkTLS verification layer goes live on BNB Chain | INTEGRATION / LIVE | https://x.com/primus_labs/status/2069420216061153780
 - June | Partnership with Ink providing zkTLS + FHE privacy infrastructure | PARTNERSHIP / INTEGRATION | https://x.com/primus_labs/status/2067073764781879800
-- June | zkFHE paper accepted to USENIX Security 2026 | RESEARCH | https://x.com/primus_labs/status/2062549958507770098
+- June | Primus zkFHE paper accepted to USENIX Security 2026 | RESEARCH | https://x.com/primus_labs/status/2062549958507770098
 - May | Real-time Proof of Reserves for UnitasLabs USDu | PRODUCT | https://x.com/primus_labs/status/2053809981112414328
 - April | Real-time onchain reserve verification for Perena USD* with Brevis | PRODUCT | https://x.com/primus_labs/status/2043661348954067235
 - April | Veritas open-source component for AI agents | OPEN SOURCE / PRODUCT | https://x.com/primus_labs/status/2042233611655815643
@@ -117,13 +116,15 @@ Transparency proofs for four production projects including RWA and stablecoins.
 
 !!!TIMELINE: 2024 [03]!!!
 - December | Official rebrand from PADO to Primus | REBRAND | https://x.com/primus_labs/status/1863739455216992267
-- August | zkTLS Paper presented at USENIX Security 2024 | RESEARCH | https://x.com/primus_labs/status/1823838708811833780
+- August | Primus zkTLS Paper presented at USENIX Security 2024 | RESEARCH | https://x.com/primus_labs/status/1823838708811833780
 - April | Partnership with AO | PARTNERSHIP | https://x.com/primus_labs/status/1781177467216224315
 
 
-!!!TIMELINE: 2023-2022 [04]!!!  
-- October 2023 | PADO Extension public launch | PRODUCT | https://x.com/primus_labs/status/1716304343551607170
-- 2023 | $3M Seed round announced | FUNDING | https://www.binance.com/en/square/post/989254
+!!!TIMELINE: 2023 [04]!!!  
+- December | PADO becomes the PoH Validator for Linea community | PARTNERSHIP | https://x.com/LineaBuild/status/1734293555185701247
+- October  | PADO Extension public launch | PRODUCT | https://x.com/primus_labs/status/1716304343551607170
+- August | Received grants from Ethereum Foundation & PSE for IZK library development | PRODUCT | https://x.com/primus_labs/status/1692011540436975798
+
 
 ## Official Links 
 
@@ -134,6 +135,8 @@ Everything you need in one place.
 - [GitHub](https://github.com/primus-labs) | View
 - [Medium](https://medium.com/@primuslabs) | View
 - [Documentation](https://docs.primuslabs.xyz/) | View
+- [zkTLS Technical Paper](https://eprint.iacr.org/2023/964) | View
+- [zkFHE Research Paper](https://eprint.iacr.org/2025/261) | View
 - [Primus Extension](https://chromewebstore.google.com/detail/primus/oeiomhmbaapihbilkfkhmlajkeegnjhe) | View
 - [Join Discord](https://discord.com/invite/pdrNxRrApX) | View
 - [Follow on X](https://x.com/primus_labs) | View

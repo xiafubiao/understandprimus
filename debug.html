@@ -1,0 +1,12 @@
+<!doctype html><html><body>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+fetch('content.md').then(r=>r.text()).then(md=>{
+  document.body.innerHTML = marked.parse(md);
+  const ps = document.querySelectorAll('p');
+  let count = 0;
+  ps.forEach(p=>{ if(/^!!!TIMELINE/.test(p.textContent.trim())) count++; });
+  document.body.insertAdjacentHTML('afterbegin', '<p>Found ' + count + ' timeline markers</p>');
+});
+</script>
+</body></html>
