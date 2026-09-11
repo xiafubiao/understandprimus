@@ -719,7 +719,7 @@
 
   async function loadContent() {
     try {
-      const res = await fetch('content.md');
+      const res = await fetch('content.md', { cache: 'no-cache' });
       if (!res.ok) throw new Error('Failed to load content.md');
       const md = await res.text();
 
