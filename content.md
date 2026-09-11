@@ -87,6 +87,7 @@ Transparency proofs for four production projects including RWA and stablecoins.
 
 
 !!!TIMELINE: 2026 [01]!!!
+-August | Became a member of Ezi Residency Season 4 and received investment from YZi Labs | INVESTMENT | https://x.com/yzilabs/status/2092220721972101586
 - August | Supporting Kaito Pulse with zkTLS off-platform activity verification | INTEGRATION | https://x.com/primus_labs/status/2089736643733492118
 - July | Joint verification tool with Brevis + Kaito AI for authentic creator contributions | PARTNERSHIP | https://x.com/primus_labs/status/2082466216397164732
 - June | zkTLS verification layer goes live on BNB Chain | INTEGRATION / LIVE | https://x.com/primus_labs/status/2069420216061153780
